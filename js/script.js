@@ -115,14 +115,19 @@ mousePosition.y = canvas.height / 2;
 });*/
 
 
-let prevScroll, invPrevScroll;
+let prevScroll, invPrevScroll, translateY = 50;
+const title = $('.header-title');
 const fadeHeaderOnScroll = () => {
   const scrollPosition = $(window).scrollTop();
   if (scrollPosition <= 400 && scrollPosition > 0) {
     if (prevScroll) {
-      scrollPosition > prevScroll ?
-        header.css("opacity", (invPrevScroll - 25) * 0.0025) :
+      if (scrollPosition > prevScroll) {
+        header.css("opacity", (invPrevScroll - 25) * 0.0025);
+        //title.css("transform", "translate3d(-50%, " + translateY-- + "%, 0)");
+      } else {
         header.css("opacity", (invPrevScroll + 25) * 0.0025);
+        //title.css("transform", "translate3d(-50%, " + translateY++ + "%, 0)");
+      }
     }
   }
   prevScroll = scrollPosition;
@@ -140,19 +145,20 @@ const rotateOnMouseMouse = (event) => {
   const cursorPosX = event.clientX,
     cursorPosY = event.clientY;
 
-  const operatorX = (cursorPosX - width / 2);
+  const operatorX = (cursorPosX - width / 2),
+    operatorY = (cursorPosY - height / 2);
 
   if (cursorPosX > width / 2 && cursorPosY > (height / 2)) {
-    rotateCanvas((cursorPosY - 200) * 0.05, operatorX * 0.02);
+    rotateCanvas(operatorY * 0.04, operatorX * 0.02);
 
   } else if (cursorPosX > width / 2 && cursorPosY <= (height / 2)) {
-    rotateCanvas(360 - (cursorPosY - 200) * -0.05, operatorX * 0.02);
+    rotateCanvas(360 - operatorY * -0.04, operatorX * 0.02);
 
   } else if (cursorPosX <= width / 2 && cursorPosY > (height / 2)) {
-    rotateCanvas((cursorPosY - 200) * 0.05, 360 - operatorX * -0.02);
+    rotateCanvas(operatorY * 0.04, 360 - operatorX * -0.02);
 
   } else {
-    rotateCanvas(360 - (cursorPosY - 200) * -0.05, 360 - operatorX * -0.02);
+    rotateCanvas(360 - operatorY * -0.04, 360 - operatorX * -0.02);
   }
 
 };
